@@ -1,0 +1,68 @@
+use std::io;
+
+fn main() {
+    println!("===== THE RESTAURANT MENU =====");
+    println!("P - Poundo Yam / Edinkaiko Soup   N3,200");
+    println!("F - Fried Rice & Chicken          N3,000");
+    println!("A - Amala & Ewedu Soup            N2,500");
+    println!("E - Eba & Egusi Soup              N2,000");
+    println!("W - White Rice & Stew             N2,500");
+    println!();
+
+    // read food type
+    println!("Enter food type (P, F, A, E or W): ");
+    let mut food = String::new();
+    io::stdin().read_line(&mut food).expect("Failed to read input");
+    let food = food.trim().to_uppercase();
+
+    // read quantity
+    println!("Enter quantity: ");
+    let mut qty_input = String::new();
+    io::stdin().read_line(&mut qty_input).expect("Failed to read input");
+    let qty: f64 = match qty_input.trim().parse() {
+        Ok(n) => n,
+        Err(_) => {
+            println!("Invalid quantity");
+            return;
+        }
+    };
+
+    // decision on the letter
+    let price: f64;
+    let name: &str;
+
+    if food == "P" {
+        price = 3200.0;
+        name = "Poundo Yam / Edinkaiko Soup";
+    } else if food == "F" {
+        price = 3000.0;
+        name = "Fried Rice & Chicken";
+    } else if food == "A" {
+        price = 2500.0;
+        name = "Amala & Ewedu Soup";
+    } else if food == "E" {
+        price = 2000.0;
+        name = "Eba & Egusi Soup";
+    } else if food == "W" {
+        price = 2500.0;
+        name = "White Rice & Stew";
+    } else {
+        println!("Invalid food type");
+        return;
+    }
+
+    // arithmetic for the total
+    let mut total = price * qty;
+    println!();
+    println!("Item: {}", name);
+    println!("Quantity: {}", qty);
+    println!("Total charge: N{}", total);
+
+    // discount if total is greater than N10,000
+    if total > 10000.0 {
+        let discount = total * 0.05;
+        total = total - discount;
+        println!("5% discount: N{}", discount);
+        println!("Total after discount: N{}", total);
+    }
+}
